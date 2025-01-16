@@ -1,7 +1,5 @@
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import ProductCard from "@/components/ProductCard";
-import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import { useState } from "react";
 import { Calendar } from "@/components/ui/calendar";
@@ -14,7 +12,6 @@ import {
 } from "@/components/ui/carousel";
 
 const Index = () => {
-  const [showCalendar, setShowCalendar] = useState(false);
   const [date, setDate] = useState<Date | undefined>(new Date());
 
   const categories = [
@@ -22,37 +19,6 @@ const Index = () => {
     { name: "Fruits", image: "https://images.unsplash.com/photo-1465146344425-f00d5f5c8f07" },
     { name: "Grains", image: "https://images.unsplash.com/photo-1501286353178-1ec881214838" },
     { name: "Seeds", image: "https://images.unsplash.com/photo-1618160702438-9b02ab6515c9" },
-  ];
-
-  const featuredProducts = [
-    {
-      title: "Organic Tomatoes",
-      price: "$4.99/kg",
-      image: "https://images.unsplash.com/photo-1465146344425-f00d5f5c8f07",
-      category: "Vegetables",
-      buyUrl: "https://example.com/buy-tomatoes",
-    },
-    {
-      title: "Fresh Apples",
-      price: "$3.99/kg",
-      image: "https://images.unsplash.com/photo-1501286353178-1ec881214838",
-      category: "Fruits",
-      buyUrl: "https://example.com/buy-apples",
-    },
-    {
-      title: "Organic Rice",
-      price: "$7.99/kg",
-      image: "https://images.unsplash.com/photo-1618160702438-9b02ab6515c9",
-      category: "Grains",
-      buyUrl: "https://example.com/buy-rice",
-    },
-    {
-      title: "Sunflower Seeds",
-      price: "$5.99/kg",
-      image: "https://images.unsplash.com/photo-1465146344425-f00d5f5c8f07",
-      category: "Seeds",
-      buyUrl: "https://example.com/buy-seeds",
-    },
   ];
 
   return (
@@ -68,9 +34,9 @@ const Index = () => {
             Quality you can trust, delivered to your doorstep.
           </p>
           <Link to="/categories">
-            <Button className="bg-white text-agro-DEFAULT hover:bg-gray-100 text-lg px-8 py-6">
+            <button className="bg-white text-agro-DEFAULT hover:bg-gray-100 text-lg px-8 py-3 rounded-lg transition-colors">
               Explore Products
-            </Button>
+            </button>
           </Link>
         </div>
       </div>
@@ -100,48 +66,25 @@ const Index = () => {
         </Carousel>
       </section>
 
-      {/* Featured Products Section with Calendar Toggle */}
+      {/* Seasonal Calendar Section */}
       <section className="container mx-auto px-4 py-16">
-        <div className="flex justify-between items-center mb-8">
-          <h2 className="text-3xl font-bold">
-            {showCalendar ? "Seasonal Calendar" : "Featured Products"}
-          </h2>
-          <Button
-            onClick={() => setShowCalendar(!showCalendar)}
-            variant="outline"
-            className="border-agro-DEFAULT text-agro-DEFAULT hover:bg-agro-light hover:text-white"
-          >
-            {showCalendar ? "View Products" : "View Calendar"}
-          </Button>
+        <h2 className="text-3xl font-bold mb-8">Seasonal Calendar</h2>
+        <div className="max-w-sm mx-auto bg-white p-6 rounded-lg shadow-md">
+          <Calendar
+            mode="single"
+            selected={date}
+            onSelect={setDate}
+            className="rounded-md border"
+          />
+          {date && (
+            <div className="mt-4 p-4 bg-gray-50 rounded-md">
+              <h3 className="font-semibold text-agro-DEFAULT">Seasonal Products</h3>
+              <p className="text-gray-600 mt-2">
+                View seasonal products available for {date.toLocaleDateString()}
+              </p>
+            </div>
+          )}
         </div>
-
-        {showCalendar ? (
-          <div className="max-w-sm mx-auto bg-white p-6 rounded-lg shadow-md">
-            <Calendar
-              mode="single"
-              selected={date}
-              onSelect={setDate}
-              className="rounded-md border"
-            />
-            {date && (
-              <div className="mt-4 p-4 bg-gray-50 rounded-md">
-                <h3 className="font-semibold text-agro-DEFAULT">Seasonal Products</h3>
-                <p className="text-gray-600 mt-2">
-                  View seasonal products available for {date.toLocaleDateString()}
-                </p>
-              </div>
-            )}
-          </div>
-        ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {featuredProducts.map((product) => (
-              <ProductCard
-                key={product.title}
-                {...product}
-              />
-            ))}
-          </div>
-        )}
       </section>
 
       <Footer />
