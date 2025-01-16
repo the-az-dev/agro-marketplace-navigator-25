@@ -67,9 +67,9 @@ const Index = () => {
       </section>
 
       {/* Seasonal Calendar Section */}
-      <section className="container mx-auto px-4 py-16">
+      <section className="container w-full px-4 py-16 flex flex-col justify-center items-center">
         <h2 className="text-3xl font-bold mb-8">Seasonal Calendar</h2>
-        <div className="max-w-sm mx-auto bg-white p-6 rounded-lg shadow-md">
+        <div className="mx-auto bg-white p-6 rounded-lg shadow-md w-[90%] h-full inline-flex flex-row justify-around items-center">
           <Calendar
             mode="single"
             selected={date}
@@ -77,7 +77,7 @@ const Index = () => {
             className="rounded-md border"
           />
           {date && (
-            <div className="mt-4 p-4 bg-gray-50 rounded-md">
+            <div className="m-4 p-4 bg-gray-50 rounded-md w-[90%] h-[40vh]">
               <h3 className="font-semibold text-agro-DEFAULT">Seasonal Products</h3>
               <p className="text-gray-600 mt-2">
                 View seasonal products available for {date.toLocaleDateString()}
