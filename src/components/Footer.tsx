@@ -1,20 +1,33 @@
 import { useEffect, useState } from "react";
+import { publicIp } from 'public-ip';
 
 const Footer = () => {
   const [visitorCount, setVisitorCount] = useState(0);
 
   useEffect(() => {
-    // Get current count from localStorage
-    const currentCount = parseInt(localStorage.getItem("visitorCount") || "0");
-    
-    // Increment count
-    const newCount = currentCount + 1;
-    
-    // Save to localStorage
-    localStorage.setItem("visitorCount", newCount.toString());
-    
-    // Update state
-    setVisitorCount(newCount);
+    const trackVisitor = async () => {
+      try {
+        // Get visitor's IP address
+        const ipAddress = await publicIp();
+        
+        // Get existing visitors from localStorage
+        const visitors = JSON.parse(localStorage.getItem("visitors") || "[]");
+        
+        // Check if this IP has visited before
+        if (!visitors.includes(ipAddress)) {
+          // Add new IP to the list
+          visitors.push(ipAddress);
+          localStorage.setItem("visitors", JSON.stringify(visitors));
+        }
+        
+        // Update visitor count based on unique IPs
+        setVisitorCount(visitors.length);
+      } catch (error) {
+        console.error("Error tracking visitor:", error);
+      }
+    };
+
+    trackVisitor();
   }, []); // Run once on component mount
 
   return (
@@ -25,7 +38,7 @@ const Footer = () => {
             <h3 className="text-xl font-bold mb-4">AgroMarket</h3>
             <p className="text-gray-300">Your trusted source for agricultural products.</p>
             <div className="mt-4 p-3 bg-gray-800 rounded-lg">
-              <p className="text-sm text-gray-400">Total Visitors</p>
+              <p className="text-sm text-gray-400">Unique Visitors</p>
               <p className="text-2xl font-bold text-agro-DEFAULT">{visitorCount}</p>
             </div>
           </div>
