@@ -11,7 +11,7 @@ import { Label } from "@/components/ui/label";
 
 const Products = () => {
   const [searchQuery, setSearchQuery] = useState("");
-  const [priceRange, setPriceRange] = useState([0]);
+  const [priceRange, setPriceRange] = useState([0, 100]); // Changed to array of two values
   const [selectedCategory, setSelectedCategory] = useState<ProductCategory | "all">("all");
   const [showAvailableOnly, setShowAvailableOnly] = useState(false);
 
@@ -30,7 +30,7 @@ const Products = () => {
       id: "2",
       title: "Fresh Apples",
       price: 3.99,
-      image: "https://images.unsplash.com/photo-1501286353178-1ec881214838",
+      image: "https://images.unsplash.com/photo-1501286353178-1ec871214838",
       category: ProductCategory.FRUITS,
       available: true,
       buyUrl: "https://example.com/buy-apples",
@@ -48,7 +48,7 @@ const Products = () => {
 
   const filteredProducts = allProducts.filter((product) => {
     const matchesSearch = product.title.toLowerCase().includes(searchQuery.toLowerCase());
-    const matchesPrice = product.price <= priceRange[0];
+    const matchesPrice = product.price >= priceRange[0] && product.price <= priceRange[1]; // Updated price filter
     const matchesCategory = selectedCategory === "all" || product.category === selectedCategory;
     const matchesAvailability = !showAvailableOnly || product.available;
     
@@ -79,14 +79,17 @@ const Products = () => {
               </div>
 
               <div>
-                <Label>Price Range: ${priceRange[0]}</Label>
+                <Label>Price Range</Label>
+                <div className="mt-2 text-sm text-gray-600">
+                  ${priceRange[0]} - ${priceRange[1]}
+                </div>
                 <Slider
-                  defaultValue={[50]}
+                  defaultValue={[0, 100]}
                   max={100}
                   step={1}
                   value={priceRange}
                   onValueChange={setPriceRange}
-                  className="w-full"
+                  className="w-full mt-2"
                 />
               </div>
 
