@@ -60,85 +60,89 @@ const Products = () => {
       <Navbar />
       
       <main className="flex-grow container mx-auto px-4 py-8">
-        <div className="mb-8">
-          <h1 className="text-4xl font-bold mb-4">All Products</h1>
-          
-          {/* Filters Section */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 bg-white p-6 rounded-lg shadow-md">
-            <div>
-              <Label htmlFor="search">Search Products</Label>
-              <Input
-                id="search"
-                type="text"
-                placeholder="Search by name..."
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full"
-              />
-            </div>
+        <h1 className="text-4xl font-bold mb-8">All Products</h1>
+        
+        <div className="flex flex-col md:flex-row gap-8">
+          {/* Filters Section - Now vertical on the left */}
+          <div className="w-full md:w-64 space-y-6">
+            <div className="bg-white p-6 rounded-lg shadow-md space-y-6">
+              <div>
+                <Label htmlFor="search">Search Products</Label>
+                <Input
+                  id="search"
+                  type="text"
+                  placeholder="Search by name..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="w-full"
+                />
+              </div>
 
-            <div>
-              <Label>Price Range: ${priceRange[0]}</Label>
-              <Slider
-                defaultValue={[50]}
-                max={100}
-                step={1}
-                value={priceRange}
-                onValueChange={setPriceRange}
-                className="w-full"
-              />
-            </div>
+              <div>
+                <Label>Price Range: ${priceRange[0]}</Label>
+                <Slider
+                  defaultValue={[50]}
+                  max={100}
+                  step={1}
+                  value={priceRange}
+                  onValueChange={setPriceRange}
+                  className="w-full"
+                />
+              </div>
 
-            <div>
-              <Label>Category</Label>
-              <Select
-                value={selectedCategory}
-                onValueChange={(value) => setSelectedCategory(value as ProductCategory | "all")}
-              >
-                <SelectTrigger>
-                  <SelectValue placeholder="Select category" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="all">All Categories</SelectItem>
-                  {Object.values(ProductCategory).map((category) => (
-                    <SelectItem key={category} value={category}>
-                      {category}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            </div>
+              <div>
+                <Label>Category</Label>
+                <Select
+                  value={selectedCategory}
+                  onValueChange={(value) => setSelectedCategory(value as ProductCategory | "all")}
+                >
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select category" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="all">All Categories</SelectItem>
+                    {Object.values(ProductCategory).map((category) => (
+                      <SelectItem key={category} value={category}>
+                        {category}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
 
-            <div className="flex items-center space-x-2">
-              <Switch
-                id="available"
-                checked={showAvailableOnly}
-                onCheckedChange={setShowAvailableOnly}
-              />
-              <Label htmlFor="available">Show Available Only</Label>
+              <div className="flex items-center space-x-2">
+                <Switch
+                  id="available"
+                  checked={showAvailableOnly}
+                  onCheckedChange={setShowAvailableOnly}
+                />
+                <Label htmlFor="available">Show Available Only</Label>
+              </div>
             </div>
           </div>
-        </div>
 
-        {/* Products Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {filteredProducts.map((product) => (
-            <ProductCard
-              key={product.id}
-              title={product.title}
-              price={`$${product.price}`}
-              image={product.image}
-              category={product.category}
-              buyUrl={product.buyUrl}
-            />
-          ))}
-        </div>
+          {/* Products Grid */}
+          <div className="flex-1">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {filteredProducts.map((product) => (
+                <ProductCard
+                  key={product.id}
+                  title={product.title}
+                  price={`$${product.price}`}
+                  image={product.image}
+                  category={product.category}
+                  buyUrl={product.buyUrl}
+                />
+              ))}
+            </div>
 
-        {filteredProducts.length === 0 && (
-          <div className="text-center py-8">
-            <p className="text-gray-500">No products found matching your criteria.</p>
+            {filteredProducts.length === 0 && (
+              <div className="text-center py-8">
+                <p className="text-gray-500">No products found matching your criteria.</p>
+              </div>
+            )}
           </div>
-        )}
+        </div>
       </main>
 
       <Footer />
