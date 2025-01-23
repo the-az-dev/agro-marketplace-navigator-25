@@ -1,4 +1,5 @@
 import { Button } from "./ui/button";
+import { Badge } from "./ui/badge";
 
 interface ProductCardProps {
   title: string;
@@ -21,11 +22,11 @@ const ProductCard = ({ title, price, image, category, buyUrl }: ProductCardProps
         className="w-full h-48 object-cover"
       />
       <div className="p-4">
-        <span className="text-sm text-agro-DEFAULT font-semibold">{category}</span>
+        <Badge variant="secondary" className="mb-2">{category}</Badge>
         <h3 className="text-lg font-semibold mt-1">{title}</h3>
         <p className="text-gray-600 mt-2">{price}</p>
         <Button 
-          className="w-full mt-4 bg-agro-DEFAULT hover:bg-agro-light"
+          className="w-full mt-4"
           onClick={handleBuy}
         >
           Buy Now
