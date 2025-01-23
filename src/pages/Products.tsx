@@ -90,6 +90,7 @@ const Products = () => {
                   value={priceRange}
                   onValueChange={setPriceRange}
                   className="w-full mt-2"
+                  minStepsBetweenThumbs={1}
                 />
               </div>
 
