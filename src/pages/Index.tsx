@@ -55,14 +55,14 @@ const Index = () => {
               <CarouselItem key={category.name} className="md:basis-1/2 lg:basis-1/3">
                 <div 
                   onClick={() => handleCategoryClick(category.name)}
-                  className="block relative group overflow-hidden rounded-lg cursor-pointer"
+                  className="block relative group overflow-hidden rounded-lg cursor-pointer transform transition-all duration-300 hover:scale-105"
                 >
                   <img
                     src={category.image}
                     alt={category.name}
                     className="w-full h-64 object-cover transition-transform group-hover:scale-110"
                   />
-                  <div className="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center">
+                  <div className="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center group-hover:bg-opacity-50 transition-all duration-300">
                     <h3 className="text-white text-2xl font-bold">{category.name}</h3>
                   </div>
                 </div>
