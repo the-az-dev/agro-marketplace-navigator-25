@@ -1,6 +1,6 @@
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { Calendar } from "@/components/ui/calendar";
 import {
@@ -13,13 +13,18 @@ import {
 
 const Index = () => {
   const [date, setDate] = useState<Date | undefined>(new Date());
+  const navigate = useNavigate();
 
   const categories = [
     { name: "Vegetables", image: "https://images.unsplash.com/photo-1618160702438-9b02ab6515c9" },
     { name: "Fruits", image: "https://images.unsplash.com/photo-1465146344425-f00d5f5c8f07" },
-    { name: "Grains", image: "https://images.unsplash.com/photo-1501286353178-1ec881214838" },
+    { name: "Grains", image: "https://images.unsplash.com/photo-1501286353178-1ec871214838" },
     { name: "Seeds", image: "https://images.unsplash.com/photo-1618160702438-9b02ab6515c9" },
   ];
+
+  const handleCategoryClick = (categoryName: string) => {
+    navigate(`/products?category=${categoryName.toLowerCase()}`);
+  };
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -48,7 +53,10 @@ const Index = () => {
           <CarouselContent>
             {categories.map((category) => (
               <CarouselItem key={category.name} className="md:basis-1/2 lg:basis-1/3">
-                <Link to="/categories" className="block relative group overflow-hidden rounded-lg">
+                <div 
+                  onClick={() => handleCategoryClick(category.name)}
+                  className="block relative group overflow-hidden rounded-lg cursor-pointer"
+                >
                   <img
                     src={category.image}
                     alt={category.name}
@@ -57,7 +65,7 @@ const Index = () => {
                   <div className="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center">
                     <h3 className="text-white text-2xl font-bold">{category.name}</h3>
                   </div>
-                </Link>
+                </div>
               </CarouselItem>
             ))}
           </CarouselContent>
