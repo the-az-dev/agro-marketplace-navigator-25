@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { ProductCategory, type Product } from "@/types/product";
+import {type Product } from "@/types/Product";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import ProductCard from "@/components/ProductCard";
@@ -10,15 +10,16 @@ import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
 import { useSearchParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
+import { Category } from "@/types/Category";
 
 const Products = () => {
-  const [searchParams] = useSearchParams();
-  const initialCategory = searchParams.get("category");
+  const [searchParams] = useSearchParams<Category | null>([]);
+  const initialCategory = searchParams.get("category") as Category;
   
   const [searchQuery, setSearchQuery] = useState("");
   const [priceRange, setPriceRange] = useState([0, 100]);
-  const [selectedCategory, setSelectedCategory] = useState<ProductCategory | "all">(
-    initialCategory as ProductCategory || "all"
+  const [selectedCategory, setSelectedCategory] = useState<Category | null>(
+    initialCategory || null
   );
   const [showAvailableOnly, setShowAvailableOnly] = useState(false);
 
