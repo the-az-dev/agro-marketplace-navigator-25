@@ -1,0 +1,25 @@
+[
+  {
+    "id": 0,
+    "name": "Плодові дерева",
+    "photo": "https://images.unsplash.com/photo-1618160702438-9b02ab6515c9",
+    "locale": "ua",
+    "subcategories": [
+      {
+        "id": 56,
+        "name": "Полуниця",
+        "locale": "ua"
+      },
+      {
+        "id": 21,
+        "name": "Яблуня",
+        "locale": "ua"
+      },
+      {
+        "id": 22,
+        "name": "Суниця",
+        "locale": "ua"
+      }
+    ]
+  }
+]

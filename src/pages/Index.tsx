@@ -14,6 +14,11 @@ import { useTranslation } from "react-i18next";
 import { Card } from "@/components/ui/card";
 import CategorySection from "@/components/CategorySection";
 import { Button } from "@/components/ui/button";
+import JSONCategories from "../../assets/mocks/categories.json";
+import JSONProducts from "../../assets/mocks/products.json";
+import { Category } from "@/types/Category";
+import { Product } from "@/types/Product";
+import { Badge } from "@/components/ui/badge";
 
 const Index = () => {
   const { t } = useTranslation();
@@ -29,164 +34,8 @@ const Index = () => {
     return t("spring"); // Зима → Весна
   }
 
-  const categories = [
-    {
-      name: "Груша Голден, пізній сорт",
-      image: "https://images.unsplash.com/photo-1618160702438-9b02ab6515c9",
-      subcategories: [
-        {
-          name: "Aboba",
-        },
-        {
-          name: "Aboba",
-        },
-        {
-          name: "Aboba",
-        },
-        {
-          name: "Aboba",
-        },
-        {
-          name: "Aboba",
-        },
-        {
-          name: "Aboba",
-        },
-        {
-          name: "Aboba",
-        },
-        {
-          name: "Aboba",
-        },
-        {
-          name: "Aboba",
-        },
-        {
-          name: "Aboba",
-        },
-        {
-          name: "Aboba",
-        },
-      ],
-    },
-    {
-      name: "Fruits",
-      image: "https://images.unsplash.com/photo-1465146344425-f00d5f5c8f07",
-      subcategories: [
-        {
-          name: "Aboba",
-        },
-        {
-          name: "Aboba",
-        },
-        {
-          name: "Aboba",
-        },
-        {
-          name: "Aboba",
-        },
-        {
-          name: "Aboba",
-        },
-        {
-          name: "Aboba",
-        },
-        {
-          name: "Aboba",
-        },
-        {
-          name: "Aboba",
-        },
-        {
-          name: "Aboba",
-        },
-        {
-          name: "Aboba",
-        },
-        {
-          name: "Aboba",
-        },
-      ],
-    },
-    {
-      name: "Grains",
-      image: "https://images.unsplash.com/photo-1501286353178-1ec871214838",
-      subcategories: [
-        {
-          name: "Aboba",
-        },
-        {
-          name: "Aboba",
-        },
-        {
-          name: "Aboba",
-        },
-        {
-          name: "Aboba",
-        },
-        {
-          name: "Aboba",
-        },
-        {
-          name: "Aboba",
-        },
-        {
-          name: "Aboba",
-        },
-        {
-          name: "Aboba",
-        },
-        {
-          name: "Aboba",
-        },
-        {
-          name: "Aboba",
-        },
-        {
-          name: "Aboba",
-        },
-      ],
-    },
-    {
-      name: "Seeds",
-      image: "https://images.unsplash.com/photo-1618160702438-9b02ab6515c9",
-      subcategories: [
-        {
-          name: "Aboba",
-        },
-        {
-          name: "Aboba",
-        },
-        {
-          name: "Aboba",
-        },
-        {
-          name: "Aboba",
-        },
-        {
-          name: "Aboba",
-        },
-        {
-          name: "Aboba",
-        },
-        {
-          name: "Aboba",
-        },
-        {
-          name: "Aboba",
-        },
-        {
-          name: "Aboba",
-        },
-        {
-          name: "Aboba",
-        },
-        {
-          name: "Aboba",
-        },
-      ],
-    },
-  ];
+  const categories = JSONCategories as Category[];
+  const products = JSONProducts as Product[];
 
   const handleCategoryClick = (categoryName: string) => {
     navigate(`/products?category=${categoryName.toLowerCase()}`);
@@ -194,7 +43,7 @@ const Index = () => {
 
   return (
     <div className="min-h-screen flex flex-col">
-      <Navbar />
+      <Navbar categories={categories} />
 
       {/* Hero Section with Enhanced Header */}
       <div className="bg-gradient-to-r h-[500px] flex flex-col items-center justify-center pt-[150px] from-agro-dark via-agro-DEFAULT to-agro-light text-white py-20">
@@ -227,31 +76,39 @@ const Index = () => {
         </h2>
         <Carousel className="w-full h-full max-w-5xl mx-auto">
           <CarouselContent className="w-full h-[90%]">
-            {categories.map((category) => (
+            {products.map((product) => (
               <CarouselItem
-                key={category.name}
-                className="md:basis-1/4 lg:basis-1/8 h-full"
+                key={product.id}
+                className="md:basis-1/4 lg:basis-1/4 h-full min-w-[300px] flex flex-col items-center justify-center"
               >
-                <div
-                  onClick={() => handleCategoryClick(category.name)}
-                  className="w-full h-full relative group rounded-lg cursor-pointer transform transition-all duration-300 hover:scale-105 rounded-[30px] bg-white shadow-xl"
-                >
-                  <div className=" w-full h-full flex flex-col justify-center items-center p-[20px]">
-                    <div className="w-[90%] h-[90%] rounded-[30px]">
-                      <img
-                        src={category.image}
-                        alt={category.name}
-                        className="w-[190px] h-[190px] rounded-[30px] boxfit-cover"
-                      />
+                <div className="bg-white rounded-lg shadow-md overflow-hidden transition-transform hover:scale-105">
+                  <img
+                    src={product.photo}
+                    alt={product.title}
+                    className="w-full h-48 object-cover"
+                  />
+                  <div className="p-4 flex flex-col items-center justify-between">
+                    <div className="w-full h-40">
+                      <Badge variant="secondary" className="mb-2">
+                        {product.category.name}
+                      </Badge>
+                      <h3 className="text-lg font-semibold mt-1">
+                        {product.title}
+                      </h3>
+                      <p className="text-gray-600 mt-2">
+                        {product.price} грн / {product.minimal_order} шт
+                      </p>
                     </div>
-                    <div className="w-full h-full flex flex-col items-center justify-around transition-all duration-300 pt-[15px] pb-[15px]">
-                      <h3 className="text-black text-1l">{category.name}</h3>
-
-                      <p className="text-black text-[14px]">10 грн / 100 шт</p>
+                    <div className="w-full">
+                      <Button
+                        className="w-full mt-4 bg-transparent text-black hover:bg-transparent rounded-lb border-[2px]"
+                        onClick={() => {
+                          window.open("/products?productId=" + product.id);
+                        }}
+                      >
+                        <p className="color-black">More</p>
+                      </Button>
                     </div>
-                    <Link to="/" className="pt-[15px] pb-[20px]">
-                      <Button>{t("create-order-btn-title")}</Button>
-                    </Link>
                   </div>
                 </div>
               </CarouselItem>
@@ -275,7 +132,7 @@ const Index = () => {
                 className="block relative group overflow-hidden rounded-lg cursor-pointer transform transition-all duration-300 hover:scale-105"
               >
                 <img
-                  src={category.image}
+                  src={category.photo}
                   alt={category.name}
                   className="w-full h-64 object-cover transition-transform group-hover:scale-110"
                 />

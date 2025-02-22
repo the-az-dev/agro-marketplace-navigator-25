@@ -1,12 +1,23 @@
+import { SubCategory } from "./SubCategories";
+
 export interface Product{
   id: number;
-  price: string;
+  price: number;
   season: string;
-  hint: string;
-  category_name: string;
+  sort: string;
+  class: string;
+  minimal_order: number;
+  wholesale: boolean;
+  retail: boolean;
+  delivery_at: string;
+  hint?: string;
+  category: SubCategory;
   title: string;
-  escription: string;
+  description: string;
+  photo: string;
+  buy_url: string;
+  available: boolean;
   locale: string;
-  plant_at: Date;
-  harvest_at: Date;
+  plant_at: string;
+  harvest_at: string;
 }

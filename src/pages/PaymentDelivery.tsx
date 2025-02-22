@@ -3,7 +3,7 @@ import JSONCategories from "../../assets/mocks/categories.json";
 import { Category } from "@/types/Category";
 import { Footer } from "react-day-picker";
 
-function About(){
+function PaymentDelivery(){
 
     const categories = JSONCategories as Category[];
 
@@ -11,7 +11,7 @@ function About(){
         <>
             <Navbar categories={categories}/>
             <div>
-                <h1>About</h1>
+                <h1>Payment and Delivery</h1>
             </div>
             <Footer />
         </>
@@ -19,4 +19,4 @@ function About(){
 
 }
 
-export default About;
+export default PaymentDelivery;
