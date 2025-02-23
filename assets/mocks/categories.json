@@ -1,23 +1,72 @@
 [
   {
-    "id": 0,
+    "id": 1,
     "name": "Плодові дерева",
     "photo": "https://images.unsplash.com/photo-1618160702438-9b02ab6515c9",
     "locale": "ua",
     "subcategories": [
       {
-        "id": 56,
-        "name": "Полуниця",
+        "id": 11,
+        "name": "Яблуня",
         "locale": "ua"
       },
       {
+        "id": 12,
+        "name": "Груша",
+        "locale": "ua"
+      }
+    ]
+  },
+  {
+    "id": 2,
+    "name": "Ягідні культури",
+    "photo": "https://images.unsplash.com/photo-1618160702438-9b02ab6515c9",
+    "locale": "ua",
+    "subcategories": [
+      {
         "id": 21,
-        "name": "Яблуня",
+        "name": "Полуниця",
         "locale": "ua"
       },
       {
         "id": 22,
         "name": "Суниця",
+        "locale": "ua"
+      }
+    ]
+  },
+  {
+    "id": 3,
+    "name": "Горіхові дерева",
+    "photo": "https://images.unsplash.com/photo-1618160702438-9b02ab6515c9",
+    "locale": "ua",
+    "subcategories": [
+      {
+        "id": 31,
+        "name": "Яблуня",
+        "locale": "ua"
+      },
+      {
+        "id": 32,
+        "name": "Груша",
+        "locale": "ua"
+      }
+    ]
+  },
+  {
+    "id": 4,
+    "name": "Садова техніка",
+    "photo": "https://images.unsplash.com/photo-1618160702438-9b02ab6515c9",
+    "locale": "ua",
+    "subcategories": [
+      {
+        "id": 41,
+        "name": "Візки",
+        "locale": "ua"
+      },
+      {
+        "id": 42,
+        "name": "Насоси",
         "locale": "ua"
       }
     ]

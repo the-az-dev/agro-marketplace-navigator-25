@@ -16,13 +16,15 @@ import CategorySection from "@/components/CategorySection";
 import { Button } from "@/components/ui/button";
 import JSONCategories from "../../assets/mocks/categories.json";
 import JSONProducts from "../../assets/mocks/products.json";
+import JSONArticles from "../../assets/mocks/articles.json";
 import { Category } from "@/types/Category";
 import { Product } from "@/types/Product";
 import { Badge } from "@/components/ui/badge";
+import { Article } from "@/types/Article";
+import ArticleList from "@/components/ArticlesListMainPage";
 
 const Index = () => {
   const { t } = useTranslation();
-  const [date, setDate] = useState<Date | undefined>(new Date());
   const navigate = useNavigate();
 
   function getSeason() {
@@ -36,6 +38,7 @@ const Index = () => {
 
   const categories = JSONCategories as Category[];
   const products = JSONProducts as Product[];
+  const articles = JSONArticles as Article[];
 
   const handleCategoryClick = (categoryName: string) => {
     navigate(`/products?category=${categoryName.toLowerCase()}`);
@@ -66,85 +69,76 @@ const Index = () => {
       <CategorySection categories={categories} t={t} />
 
       {/* Next Seasonal Products Section */}
-      <section className="container mx-auto px-4 py-16 h-[60vh]">
-        <h2 className="text-3xl font-bold mb-8 text-center">
-          {t("home-seasonal-section-title") +
-            " " +
-            getSeason() +
-            " " +
-            new Date().getFullYear()}
-        </h2>
-        <Carousel className="w-full h-full max-w-5xl mx-auto">
-          <CarouselContent className="w-full h-[90%]">
-            {products.map((product) => (
-              <CarouselItem
-                key={product.id}
-                className="md:basis-1/4 lg:basis-1/4 h-full min-w-[300px] flex flex-col items-center justify-center"
-              >
-                <div className="bg-white rounded-lg shadow-md overflow-hidden transition-transform hover:scale-105">
-                  <img
-                    src={product.photo}
-                    alt={product.title}
-                    className="w-full h-48 object-cover"
-                  />
-                  <div className="p-4 flex flex-col items-center justify-between">
-                    <div className="w-full h-40">
-                      <Badge variant="secondary" className="mb-2">
-                        {product.category.name}
-                      </Badge>
-                      <h3 className="text-lg font-semibold mt-1">
-                        {product.title}
-                      </h3>
-                      <p className="text-gray-600 mt-2">
-                        {product.price} грн / {product.minimal_order} шт
-                      </p>
+      {products.find(
+        (product) => product.season.toLowerCase() === getSeason().toLowerCase()
+      ) ? (
+        <section className="container mx-auto px-4 py-16 h-[60vh]">
+          <h2 className="text-3xl font-bold mb-8 text-center">
+            {t("home-seasonal-section-title") +
+              " " +
+              getSeason() +
+              " " +
+              new Date().getFullYear()}
+          </h2>
+
+          <Carousel className="w-full h-full max-w-5xl mx-auto">
+            <CarouselContent className="w-full h-[90%]">
+              {products.map((product) =>
+                product.season.toLowerCase() === getSeason().toLowerCase() ? (
+                  <CarouselItem
+                    key={product.id}
+                    className="md:basis-1/4 lg:basis-1/4 h-full min-w-[300px] flex flex-col items-center justify-center"
+                  >
+                    <div className="bg-white rounded-lg shadow-md overflow-hidden transition-transform hover:scale-105">
+                      <img
+                        src={product.photo}
+                        alt={product.title}
+                        className="w-full h-48 object-cover"
+                      />
+                      <div className="p-4 flex flex-col items-center justify-between">
+                        <div className="w-full h-40">
+                          <Badge variant="secondary" className="mb-2">
+                            {product.category.name}
+                          </Badge>
+                          <h3 className="text-lg font-semibold mt-1">
+                            {product.title}
+                          </h3>
+                          <p className="text-gray-600 mt-2">
+                            {product.price} грн / {product.minimal_order} шт
+                          </p>
+                        </div>
+                        <div className="w-full">
+                          <Button
+                            className="w-full mt-4 bg-transparent text-black hover:bg-transparent rounded-lb border-[2px]"
+                            onClick={() => {
+                              window.open("/products?productId=" + product.id);
+                            }}
+                          >
+                            <p className="color-black">More</p>
+                          </Button>
+                        </div>
+                      </div>
                     </div>
-                    <div className="w-full">
-                      <Button
-                        className="w-full mt-4 bg-transparent text-black hover:bg-transparent rounded-lb border-[2px]"
-                        onClick={() => {
-                          window.open("/products?productId=" + product.id);
-                        }}
-                      >
-                        <p className="color-black">More</p>
-                      </Button>
-                    </div>
-                  </div>
-                </div>
-              </CarouselItem>
-            ))}
-          </CarouselContent>
-          <CarouselPrevious />
-          <CarouselNext />
-        </Carousel>
-      </section>
+                  </CarouselItem>
+                ) : (
+                  <div></div>
+                )
+              )}
+            </CarouselContent>
+            <CarouselPrevious />
+            <CarouselNext />
+          </Carousel>
+        </section>
+      ) : (
+        <div></div>
+      )}
 
       {/* Latest Articles */}
       <section className="container mx-auto px-4 py-16">
         <h2 className="text-3xl font-bold mb-8 text-center">
           {t("home-latest-article-section-title")}
         </h2>
-        <div className="flex flex-row justify-center items-center gap-4">
-          {categories.map((category) => (
-            <Card key={category.name} className="md:basis-1/4 lg:basis-1/4">
-              <div
-                onClick={() => handleCategoryClick(category.name)}
-                className="block relative group overflow-hidden rounded-lg cursor-pointer transform transition-all duration-300 hover:scale-105"
-              >
-                <img
-                  src={category.photo}
-                  alt={category.name}
-                  className="w-full h-64 object-cover transition-transform group-hover:scale-110"
-                />
-                <div className="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center group-hover:bg-opacity-50 transition-all duration-300">
-                  <h3 className="text-white text-2xl font-bold">
-                    {category.name}
-                  </h3>
-                </div>
-              </div>
-            </Card>
-          ))}
-        </div>
+        <ArticleList articles={articles}/>
       </section>
 
       <Footer />

@@ -1,17 +1,42 @@
 [
-    {
-      "id": 56,
-      "name": "Полуниця",
-      "locale": "ua"
-    },
-    {
-      "id": 21,
-      "name": "Яблуня",
-      "locale": "ua"
-    },
-    {
-      "id": 22,
-      "name": "Суниця",
-      "locale": "ua"
-    }
+  {
+    "id": 11,
+    "name": "Яблуня",
+    "locale": "ua"
+  },
+  {
+    "id": 12,
+    "name": "Груша",
+    "locale": "ua"
+  },
+  {
+    "id": 21,
+    "name": "Полуниця",
+    "locale": "ua"
+  },
+  {
+    "id": 22,
+    "name": "Суниця",
+    "locale": "ua"
+  },
+  {
+    "id": 31,
+    "name": "Яблуня",
+    "locale": "ua"
+  },
+  {
+    "id": 32,
+    "name": "Груша",
+    "locale": "ua"
+  },
+  {
+    "id": 41,
+    "name": "Візки",
+    "locale": "ua"
+  },
+  {
+    "id": 42,
+    "name": "Насоси",
+    "locale": "ua"
+  }
 ]

@@ -9,8 +9,7 @@ import {
 import { Link } from "react-router-dom";
 
 export default function CategorySection({ categories, t }) {
-  const [hoveredCategory, setHoveredCategory] = useState(false);
-
+  const [hoveredCategory, setHoveredCategory] = useState("");
 
   return (
     <section className="container mx-auto px-4 py-16">
@@ -22,10 +21,11 @@ export default function CategorySection({ categories, t }) {
           <div
             key={category.name}
             className="relative group flex flex-col items-center space-y-2 cursor-pointer p-2 rounded-lg hover:bg-gray-100 transition-all w-28"
-            onClick={() => setHoveredCategory(!hoveredCategory)}
+            onMouseEnter={() => setHoveredCategory(category.name)}
+            onMouseLeave={() => setHoveredCategory(null)}
           >
             <img
-              src={category.image}
+              src={category.photo}
               alt={category.name}
               className="w-16 h-16 object-cover rounded-md"
             />
@@ -33,20 +33,24 @@ export default function CategorySection({ categories, t }) {
               {category.name}
             </span>
 
-            {hoveredCategory && category.subcategories && (
-              <div className="absolute top-full left-1/2 transform -translate-x-1/2 mt-2 w-48 bg-white shadow-lg border rounded-lg p-2 z-50 max-h-60 overflow-auto">
-                {category.subcategories.map((sub, index) => (
-                  <Link to={"/products?subcategory=" + sub.id} target="_blank">
-                    <div
-                      key={index}
-                      className="p-2 hover:bg-gray-100 rounded cursor-pointer relative"
+            {hoveredCategory === category.name &&
+              category.subcategories?.length > 0 && (
+                <div className="absolute top-full left-1/2 transform -translate-x-1/2 mt-2 w-48 bg-white shadow-lg border rounded-lg p-2 z-50 max-h-60 overflow-auto">
+                  {category.subcategories.map((sub, index) => (
+                    <Link
+                      to={"/products?subcategory=" + sub.id}
+                      target="_blank"
                     >
-                      {sub.name}
-                    </div>
-                  </Link>
-                ))}
-              </div>
-            )}
+                      <div
+                        key={index}
+                        className="p-2 hover:bg-gray-100 rounded cursor-pointer relative"
+                      >
+                        {sub.name}
+                      </div>
+                    </Link>
+                  ))}
+                </div>
+              )}
           </div>
         ))}
       </div>
