@@ -1,0 +1,22 @@
+[
+    {
+        "id": 1,
+        "name": "Winter",
+        "locale": "uk"
+    },
+    {
+        "id": 2,
+        "name": "Spring",
+        "locale": "uk"
+    },
+    {
+        "id": 3,
+        "name": "Summer",
+        "locale": "uk"
+    },
+    {
+        "id": 4,
+        "name": "Autumn",
+        "locale": "uk"
+    }
+]

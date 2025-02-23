@@ -16,15 +16,19 @@ import { Link, useSearchParams } from "react-router-dom";
 import JSONCategories from "../../assets/mocks/categories.json";
 import JSONProducts from "../../assets/mocks/products.json";
 import JSONSubCategories from "../../assets/mocks/subcategories.json";
+import JSONSeasons from "../../assets/mocks/seasons.json";
 import { Category } from "@/types/Category";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { SubCategory } from "@/types/SubCategories";
+import { randomUUID } from "crypto";
+import { Season } from "@/types/Seasons";
 
 const Products = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const initialSubcategory = searchParams.get("subcategory") || "all";
   const initialProduct = searchParams.get("productId") || "";
+  const initialSeason = searchParams.get("season") || "all-seasons";
 
   const [searchQuery, setSearchQuery] = useState("");
   const [priceFrom, setPriceFrom] = useState("");
@@ -36,10 +40,12 @@ const Products = () => {
   const [showRetailOnly, setShowRetailOnly] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   const [selectedProductId, setSelectedProductId] = useState(initialProduct);
+  const [selectedSeason, setSelectedSeason] = useState(initialSeason);
 
   const categories = (JSONCategories as Category[]) || [];
   const allProducts = (JSONProducts as Product[]) || [];
   const allSubCategories = (JSONSubCategories as SubCategory[]) || [];
+  const allSeasons = (JSONSeasons as Season[]) || [];
 
   // Очищення непотрібних параметрів з URL
   useEffect(() => {
@@ -52,6 +58,7 @@ const Products = () => {
     if (showWholePriceOnly) params.set("wholeprice", "true");
     if (showRetailOnly) params.set("retail", "true");
     if (selectedProductId) params.set("productId", selectedProductId);
+    if (selectedSeason) params.set("season", selectedSeason);
     if (selectedProductId && selectedProductId !== "") {
       const foundProduct = allProducts.find(
         (p) => p.id === Number(selectedProductId)
@@ -68,6 +75,7 @@ const Products = () => {
     showWholePriceOnly,
     showRetailOnly,
     selectedProductId,
+    selectedSeason,
   ]);
 
   const filteredProducts = allProducts.filter((product: Product) => {
@@ -84,6 +92,9 @@ const Products = () => {
     const matchesRetail = !showRetailOnly || product.retail;
     const matchesWholePrice = !showWholePriceOnly || product.wholesale;
     const matchesProductId = Number(selectedProductId) || product.id;
+    const matchesSeason =
+      selectedSeason == "all-seasons" ||
+      product.season.toLowerCase() === selectedSeason.toLowerCase();
     return (
       matchesSearch &&
       matchesPrice &&
@@ -91,7 +102,8 @@ const Products = () => {
       matchesAvailability &&
       matchesRetail &&
       matchesWholePrice &&
-      matchesProductId
+      matchesProductId &&
+      matchesSeason
     );
   });
 
@@ -119,17 +131,41 @@ const Products = () => {
             {selectedSubcategory !== "all" ? (
               <div className="flex flex-row items-center gap-2">
                 <p>/</p>
-                <Link to={"/products?subcategory=" + selectedSubcategory}>
-                  <p>{allSubCategories.find((cat) => cat.id === Number(selectedSubcategory)).name}</p>
+                <Link to={"/products?subcategory=" + selectedSubcategory + "&season=all"}>
+                  <p>
+                    {
+                      allSubCategories.find(
+                        (cat) => cat.id === Number(selectedSubcategory)
+                      ).name
+                    }
+                  </p>
                 </Link>
               </div>
             ) : (
               <div className="flex flex-row items-center gap-2">
                 <p>/</p>
-                <Link to={"/products?subcategory=all"}>
+                <Link to={"/products?subcategory=all&season=all"}>
                   <p>All</p>
                 </Link>
               </div>
+            )}
+            {selectedSeason !== "all-seasons" ? (
+              <div className="flex flex-row items-center gap-2">
+                <p>/</p>
+                <Link to={"/products?season=" + selectedSeason}>
+                  <p>
+                    Season: {
+                      allSeasons.find(
+                        (cat) =>
+                          cat.name.toLowerCase() ===
+                          selectedSeason.toLowerCase()
+                      ).name
+                    }
+                  </p>
+                </Link>
+              </div>
+            ) : (
+              <div className="flex flex-row items-center gap-2"></div>
             )}
           </div>
         </div>
@@ -168,27 +204,49 @@ const Products = () => {
                 <div>
                   <Label>Category</Label>
                   <Select
-                    value={selectedSubcategory || ""}
+                    value={selectedSubcategory || "all"}
                     onValueChange={(value) =>
-                      setSelectedSubcategory(value || "")
+                      setSelectedSubcategory(value || "all")
                     }
                   >
                     <SelectTrigger>
                       <SelectValue placeholder="Select subcategory" />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem key="0" value="all">
+                      <SelectItem key="all-subcategories" value="all">
                         All Subcategories
                       </SelectItem>
-                      {allSubCategories.length > 0 &&
-                        allSubCategories.map((sub) => (
-                          <SelectItem key={sub.id} value={String(sub.id)}>
-                            {sub.name}
-                          </SelectItem>
-                        ))}
+                      {allSubCategories.map((sub) => (
+                        <SelectItem key={sub.id} value={String(sub.id)}>
+                          {sub.name}
+                        </SelectItem>
+                      ))}
                     </SelectContent>
                   </Select>
                 </div>
+
+                <div>
+                  <Label>Season</Label>
+                  <Select
+                    value={selectedSeason || "all-seasons"}
+                    onValueChange={(value) => setSelectedSeason(value || "all-seasons")}
+                  >
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select season" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem key="all-seasons-unique" value="all-seasons">
+                        All Seasons
+                      </SelectItem>
+                      {allSeasons.map((sub, index) => (
+                        <SelectItem key={String(`season-${sub.id}`)} value={sub.name.toLowerCase()}>
+                          {sub.name}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+
                 <div className="flex items-center space-x-2">
                   <Switch
                     id="available"
