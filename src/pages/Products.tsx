@@ -116,6 +116,21 @@ const Products = () => {
             <Link to="/products">
               <p>Products</p>
             </Link>
+            {selectedSubcategory !== "all" ? (
+              <div className="flex flex-row items-center gap-2">
+                <p>/</p>
+                <Link to={"/products?subcategory=" + selectedSubcategory}>
+                  <p>{allSubCategories.find((cat) => cat.id === Number(selectedSubcategory)).name}</p>
+                </Link>
+              </div>
+            ) : (
+              <div className="flex flex-row items-center gap-2">
+                <p>/</p>
+                <Link to={"/products?subcategory=all"}>
+                  <p>All</p>
+                </Link>
+              </div>
+            )}
           </div>
         </div>
         <div className="flex flex-row justify-center items-start transition-transform py-9 px-4 gap-2">

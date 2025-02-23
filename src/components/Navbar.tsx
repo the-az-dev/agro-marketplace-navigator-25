@@ -31,7 +31,7 @@ const Navbar = ({ categories }) => {
           </div>
 
           <div className="hidden md:flex items-center space-x-8">
-            <Link to="/" className="text-gray-700 hover:text-agro-DEFAULT">
+            <Link to="/categories" className="text-gray-700 hover:text-agro-DEFAULT">
               {t("nav-home-title")}
             </Link>
             <div
@@ -70,7 +70,7 @@ const Navbar = ({ categories }) => {
               )}
             </div>
             <Link
-              to="/article"
+              to="/articles"
               className="text-gray-700 hover:text-agro-DEFAULT"
             >
               {t("nav-article-title")}

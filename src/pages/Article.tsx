@@ -65,9 +65,24 @@ function Article() {
               />
             </Link>
             <p>/</p>
-            <Link to="/article">
+            <Link to="/articles">
               <p>Articles</p>
             </Link>
+            {selectedCategory !== "all" ? (
+              <div className="flex flex-row items-center gap-2">
+                <p>/</p>
+                <Link to={"/articles?category=" + selectedCategory}>
+                  <p>{allArticlesCategories.find((cat) => cat.id === Number(selectedCategory)).name}</p>
+                </Link>
+              </div>
+            ) : (
+              <div className="flex flex-row items-center gap-2">
+                <p>/</p>
+                <Link to={"/articles?category=all"}>
+                  <p>All</p>
+                </Link>
+              </div>
+            )}
           </div>
         </div>
 
