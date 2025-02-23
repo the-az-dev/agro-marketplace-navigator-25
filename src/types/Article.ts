@@ -1,8 +1,12 @@
+import { ArticleCategory } from "./ArticleCategory";
+
 export interface Article{
     id: number;
     title: string;
     description: string;
-    category: string;
+    category: ArticleCategory;
+    cover_image: string;
     images: String[];
-    creates_at: Date;
+    locale: string;
+    created_at: string;
 }

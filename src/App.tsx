@@ -11,6 +11,7 @@ import Article from "./pages/Article";
 import About from "./pages/About";
 import Contacts from "./pages/Contacts";
 import PaymentDelivery from "./pages/PaymentDelivery";
+import ArticleDetail from "./pages/ArticleDetail";
 
 const queryClient = new QueryClient();
 
@@ -28,6 +29,7 @@ function App (){
           <Route path="/" element={<Index />} />
           <Route path="/products" element={<Products />} />
           <Route path="/article" element={<Article />}/>
+          <Route path="/article/:id" element={<ArticleDetail />} />
           <Route path="/about" element={<About />}/>
           <Route path="/contact" element={<Contacts />}/>
           <Route path="/payments-and-delivery" element={<PaymentDelivery />}/>

@@ -99,9 +99,9 @@ const Products = () => {
     <div className="min-h-screen flex flex-col">
       <Navbar categories={categories} />
       <div className="flex flex-col">
-        <div className="flex flex-col-reverse">
+        <div className="flex flex-col-reverse border-b h-[200px] justify-center">
           <div className="flex flex-row items-center pb-8 pl-8 pr-8">
-            <h1 className="font-[bold] text-[40px]">Products</h1>
+            <h1 className="font-bold text-[40px]">Products</h1>
           </div>
           <div className="flex flex-row items-center gap-2 pb-8 pt-6 pl-8 pr-8">
             <Link to="/">
